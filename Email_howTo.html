@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Etiquette: Digital 5S & Protocols</title>
+    <style>
+        :root {
+            --primary: #002b49;
+            --primary-light: #e6f0fa;
+            --secondary: #006699;
+            --accent: #d35400;
+            --bg: #f0f2f5;
+            --text: #333;
+            --white: #ffffff;
+            --success-bg: #e3fcef;
+            --success-text: #0d5e34;
+            --danger-bg: #ffe8e8;
+            --danger-text: #8a1f1f;
+            --protocol-bg: #ffffff;
+            --protocol-border: #b2dfdb;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            background-color: var(--bg);
+            color: var(--text);
+        }
+
+        /* --- HEADER --- */
+        header {
+            background: var(--primary);
+            color: var(--white);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+        .logo span { color: var(--accent); }
+
+        .lang-switch button {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: var(--white);
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-left: 5px;
+        }
+
+        .lang-switch button:hover, .lang-switch button.active {
+            background: var(--white);
+            color: var(--primary);
+            border-color: var(--white);
+        }
+
+        /* --- CONTAINER --- */
+        .container {
+            max-width: 1250px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- INTRO SECTION --- */
+        .intro-hero {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+        }
+
+        .intro-title {
+            color: var(--primary);
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            border-bottom: 4px solid var(--accent);
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .intro-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+        }
+
+        .intro-block h3 { color: var(--secondary); margin-bottom: 15px; font-size: 1.25rem; border-left: 4px solid var(--secondary); padding-left: 10px; }
+        .intro-block p { color: #555; font-size: 1rem; text-align: left; line-height: 1.7; }
+        
+        .escalation-block h3 { border-left-color: var(--accent); color: var(--accent); }
+
+        /* --- TABS --- */
+        .tabs-nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 18px 30px;
+            font-size: 1.1rem;
+            border: none;
+            background: #e9ecef;
+            color: #666;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.3s;
+            font-weight: 700;
+            flex: 1;
+            max-width: 350px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: var(--white);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,43,73,0.3);
+        }
+        
+        .tab-btn.active#btn-bcc { background: #555; }
+
+        /* --- SCENARIOS --- */
+        .scenarios-container {
+            display: none;
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .scenarios-container.active-view { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .role-banner {
+            background: var(--white);
+            border-left: 10px solid var(--primary);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        }
+        .role-banner h2 { margin: 0 0 10px 0; color: var(--primary); font-size: 2rem; }
+        .role-banner p { margin: 0; font-size: 1.15rem; color: #555; }
+
+        /* Grid */
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 30px;
+            margin-bottom: 5rem;
+        }
+
+        .scenario-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+            border-top: 5px solid #ddd;
+        }
+
+        #view-to .scenario-card { border-top-color: var(--primary); }
+        #view-cc .scenario-card { border-top-color: var(--secondary); }
+        #view-bcc .scenario-card { border-top-color: #555; }
+
+        .scenario-card:hover { transform: translateY(-7px); box-shadow: 0 10px 30px rgba(0,0,0,0.12); }
+
+        .card-img {
+            height: 160px;
+            background-color: #eee;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .card-content { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
+
+        .situation-title {
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: var(--primary);
+            font-size: 1.2rem;
+            line-height: 1.3;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .action-box {
+            font-size: 0.9rem;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: auto;
+            position: relative;
+        }
+
+        /* Email simulation styling */
+        .email-fields {
+            background: rgba(255,255,255,0.7);
+            padding: 8px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            font-family: monospace;
+            font-size: 0.95em;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        .field-row { display: block; margin-bottom: 2px; }
+        .field-label { font-weight: 800; display: inline-block; width: 35px; }
+
+        .bad-action { 
+            background: var(--danger-bg); 
+            color: var(--danger-text); 
+            margin-bottom: 20px; 
+            border-left: 5px solid var(--danger-text);
+        }
+        
+        .good-action { 
+            background: var(--success-bg); 
+            color: var(--success-text);
+            border-left: 5px solid var(--success-text);
+        }
+
+        .label-header { font-weight: 900; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 10px; display: block; letter-spacing: 0.5px; }
+
+        /* Protocol Section */
+        .protocol-box {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed rgba(0,0,0,0.1);
+            font-size: 0.85rem;
+            color: #333;
+        }
+        .protocol-title { font-weight: bold; color: var(--secondary); display: block; margin-bottom: 3px; }
+
+        footer {
+            background: #1a1a1a;
+            color: #888;
+            text-align: center;
+            padding: 4rem;
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .intro-grid { grid-template-columns: 1fr; }
+            .scenario-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">DIGITAL <span>5S</span></div>
+    <div class="lang-switch">
+        <button onclick="setLang('cz')" class="active">CZ</button>
+        <button onclick="setLang('sk')">SVK</button>
+        <button onclick="setLang('en')">EN</button>
+        <button onclick="setLang('ukr')">UKR</button>
+    </div>
+</header>
+
+<div class="container">
+
+    <!-- INTRO -->
+    <section class="intro-hero">
+        <h1 id="main-title" class="intro-title">Digitální 5S: Delegování & Eskalace</h1>
+        
+        <div class="intro-grid">
+            <div class="intro-block">
+                <h3 id="b1-title">🏭 5S v Outlooku</h3>
+                <p id="b1-text">Stejně jako na dílně třídíme nástroje, v Outlooku třídíme příjemce. Nepořádek v e-mailech způsobuje, že důležité zprávy o výrobě nebo bezpečnosti zapadnou v balastu. <strong>Pravidlo:</strong> Pokud e-mail neobsahuje vaši konkrétní odpovědnost, je to digitální odpad.</p>
+            </div>
+            
+            <div class="intro-block">
+                <h3 id="b2-title">🛡️ Bezpečnostní pojistka</h3>
+                <p id="b2-text">V provozu je nejasnost rizikem. Pole "Komu" (To) je jediným nositelem odpovědnosti. Pole "Kopie" (Cc) je pouze svědek. Nikdy se nespoléhejte, že si "někdo z kopie" všimne, že linka stojí. Musíte adresovat konkrétního člověka.</p>
+            </div>
+
+            <div class="intro-block">
+                <h3 id="b3-title">🤝 Delegování (Vodorovně)</h3>
+                <p id="b3-text">Delegování znamená předání úkolu kolegovi nebo podřízenému. Musí být jasné a adresné. Přeposlání e-mailu bez komentáře nestačí. Vždy definujte <strong>KDO</strong> (nové jméno v poli To) a <strong>DO KDY</strong> má úkol splnit.</p>
+            </div>
+
+            <div class="intro-block escalation-block">
+                <h3 id="b4-title">🔥 Eskalace (Svisle)</h3>
+                <p id="b4-text">Eskalace je "zatažení za záchrannou brzdu". Používáme ji, když hrozí nedodržení termínu nebo finanční ztráta. <strong>Klíč:</strong> Neeskalujte emoce, eskalujte fakta. Přesuňte manažera z 'Cc' do 'To', abyste signalizovali: "Potřebuji tvou autoritu k vyřešení problému."</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- NAVIGATION -->
+    <div class="tabs-nav">
+        <button class="tab-btn active" onclick="showTab('to')" id="btn-to">Pole "KOMU" (To)</button>
+        <button class="tab-btn" onclick="showTab('cc')" id="btn-cc">Pole "KOPIE" (Cc)</button>
+        <button class="tab-btn" onclick="showTab('bcc')" id="btn-bcc">SKRYTÁ KOPIE (Bcc)</button>
+    </div>
+
+    <!-- CONTENT: TO -->
+    <div id="view-to" class="scenarios-container active-view">
+        <div class="role-banner">
+            <h2 id="to-head">Vlastník úkolu (Action Owner)</h2>
+            <p id="to-sub">Pokud je zde vaše jméno, vlastníte výsledek. Pokud nekonáte, musíte delegovat nebo čelit eskalaci.</p>
+        </div>
+        <div class="scenario-grid" id="grid-to"></div>
+    </div>
+
+    <!-- CONTENT: CC -->
+    <div id="view-cc" class="scenarios-container">
+        <div class="role-banner" style="border-left-color: var(--secondary);">
+            <h2 id="cc-head">Svědek / Informovaný (FYI)</h2>
+            <p id="cc-sub">Jste zde pro transparentnost. Vaším úkolem je monitorovat. Zasahujete (eskalujete) pouze tehdy, když proces selhává.</p>
+        </div>
+        <div class="scenario-grid" id="grid-cc"></div>
+    </div>
+
+    <!-- CONTENT: BCC -->
+    <div id="view-bcc" class="scenarios-container">
+        <div class="role-banner" style="border-left-color: #555;">
+            <h2 id="bcc-head">Duch (Invisible)</h2>
+            <p id="bcc-sub">Neviditelný příjemce. Vhodné pro ochranu dat (GDPR), ale v interní komunikaci často známka nedůvěry.</p>
+        </div>
+        <div class="scenario-grid" id="grid-bcc"></div>
+    </div>
+
+</div>
+
+<footer>
+    <p>&copy; 2024 Corporate Training Dept. | Digital Lean & Escalation Protocols</p>
+</footer>
+
+<script>
+    // Helper to format email fields and protocol
+    function email(to, cc, text, protocol) {
+        return `
+            <div class="email-fields">
+                <span class="field-row"><span class="field-label">To:</span> ${to}</span>
+                <span class="field-row"><span class="field-label">Cc:</span> ${cc}</span>
+            </div>
+            <div>${text}</div>
+            ${protocol ? `<div class="protocol-box"><span class="protocol-title">📋 PROTOKOL REAKCE:</span> ${protocol}</div>` : ''}
+        `;
+    }
+
+    const data = {
+        cz: {
+            title: "Digitální 5S: Delegování & Eskalace",
+            blocks: [
+                { t: "🏭 5S v Outlooku", p: "Stejně jako na dílně třídíme nástroje, v Outlooku třídíme příjemce. <strong>Pravidlo:</strong> Pokud e-mail neobsahuje vaši konkrétní odpovědnost, je to digitální odpad." },
+                { t: "🛡️ Bezpečnostní pojistka", p: "Pole 'Komu' (To) je nositelem odpovědnosti. Pole 'Kopie' (Cc) je svědek. Nikdy se nespoléhejte, že si 'někdo z kopie' všimne kritické chyby." },
+                { t: "🤝 Delegování (Vodorovně)", p: "Delegování musí být adresné. Přeposlání e-mailu bez komentáře nestačí. Vždy definujte <strong>KDO</strong> (nové jméno v poli To) a <strong>DO KDY</strong> má úkol splnit." },
+                { t: "🔥 Eskalace (Svisle)", p: "Eskalace je zatažení za záchrannou brzdu. Přesuňte manažera z 'Cc' do 'To', abyste signalizovali: 'Potřebuji tvou autoritu k odblokování situace'." }
+            ],
+            tabs: { to: "Pole 'KOMU' (To)", cc: "Pole 'KOPIE' (Cc)", bcc: "SKRYTÁ KOPIE (Bcc)" },
+            roles: {
+                to: { h: "Vlastník úkolu", s: "Pokud je zde vaše jméno, vlastníte výsledek. Pokud nekonáte, musíte delegovat nebo čelit eskalaci." },
+                cc: { h: "Svědek (FYI)", s: "Jste zde pro transparentnost. Zasahujete pouze tehdy, když proces selhává." },
+                bcc: { h: "Neviditelný (Ghost)", s: "Používejte opatrně. Vhodné pro GDPR, ale v interní komunikaci často známka nedůvěry." }
+            },
+            scenarios: {
+                to: [
+                    { 
+                        t: "Schválení nákupu (Urgentní PO)", 
+                        img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=500", 
+                        b: email("Nákupčí, Já", "Šéf, Kolega 1, Kolega 2", "Nechat e-mail ležet, protože v kopii je 'celý svět' a snad si toho někdo všimne.", ""), 
+                        g: email("Nákupčí", "Můj Šéf", "Schvaluji/Zamítám okamžitě. Moje nečinnost zastavuje výrobu.", "<strong>Odpovídá:</strong> Já (Vlastník). <br><strong>Jak:</strong> Reply (Odesílateli). <br><strong>Kdy:</strong> Ihned. <br><strong>Kdo mlčí:</strong> Šéf v Cc.") 
+                    },
+                    { 
+                        t: "Hlášení poruchy (Downtime)", 
+                        img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500", 
+                        b: email("Udrzba_Vse (Skupina)", "-", "Čekat. Odpovědnost se rozmělní mezi 20 lidí ve skupině a nikdo nepřijde.", ""), 
+                        g: email("Mistr Údržby, Směnový Inženýr", "Vedoucí Výroby", "Do předmětu: 'URGENT: Linka 3 stojí'. Adresuji konkrétní lidi.", "<strong>Odpovídá:</strong> Mistr údržby. <br><strong>Jak:</strong> Reply All (aby výroba věděla, že se na tom dělá). <br><strong>Kdy:</strong> Do 15 min.") 
+                    },
+                    { 
+                        t: "Předání směny (Handover)", 
+                        img: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=500", 
+                        b: email("Smena_B (Skupina)", "-", "'Kluci, dodělejte tu zakázku.' (Nikdo neví kdo, co a dokdy).", ""), 
+                        g: email("Karel (Nástupce)", "Mistr směny", "'Karle, zakázka 505 je hotová z 80%. Materiál je u stroje 2. Dokonči do 18:00.'", "<strong>Odpovídá:</strong> Karel. <br><strong>Jak:</strong> Reply All (Potvrzuji převzetí). <br><strong>Kdo mlčí:</strong> Mistr (pouze monitoruje).") 
+                    },
+                    { 
+                        t: "Bezpečnostní incident (BOZP)", 
+                        img: "https://images.unsplash.com/photo-1599696848652-f006023160a5?w=500", 
+                        b: email("Vedoucí Haly", "Safety Manager", "Dát Safety Managera jen do kopie znamená 'jen pro info'. On nebude konat.", ""), 
+                        g: email("Safety Manager, Vedoucí Haly", "-", "'Hlásím únik oleje. Žádám o okamžitou kontrolu.'", "<strong>Odpovídá:</strong> Safety Manager. <br><strong>Jak:</strong> Reply All (Jdu tam). <br><strong>Kdy:</strong> Okamžitě.") 
+                    },
+                    { 
+                        t: "Reklamace od zákazníka", 
+                        img: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=500", 
+                        b: email("Kvalita, Logistika, Výroba", "-", "Přeposlat všem s textem 'Pro info'. Manažer kvality neví, že je vlastník.", ""), 
+                        g: email("Manažer Kvality", "Ředitelé, Vedoucí úseků", "'Hlásím reklamaci vady X od klienta Y. Jako kvalita to musíte analyzovat. Vedení v Cc pro dohled.'", "<strong>Odpovídá:</strong> Manažer Kvality. <br><strong>Jak:</strong> Reply All (Přijato, řeším). <br><strong>Kdo mlčí:</strong> Ředitelé v Cc (neodpovídat 'Co se stalo?', nechat pracovat).") 
+                    },
+                    { 
+                        t: "Delegování: Nemohu splnit úkol", 
+                        img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=500", 
+                        b: email("-", "-", "Ignorovat e-mail nebo jen přeposlat kolegovi bez textu (Forward).", ""), 
+                        g: email("Původní odesílatel, Nový řešitel", "Já", "'Nestíhám to. Deleguji tento úkol na Petra (nyní v To). Petře, prosím převezmi to.'", "<strong>Odpovídá:</strong> Já (předávající) a pak Petr (přebírající). <br><strong>Jak:</strong> Reply All (Všichni musí vědět o změně).") 
+                    },
+                    { 
+                        t: "Eskalace: Dodavatel neplní termín", 
+                        img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=500", 
+                        b: email("Dodavatel", "Můj Šéf", "Psát stále dokola dodavateli a šéfa nechat 'schovaného' v kopii.", ""), 
+                        g: email("Dodavatel, Můj Šéf", "-", "'Vzhledem ke kritickému zpoždění eskaluji problém na vedení (dávám do To). Žádám termín.'", "<strong>Odpovídá:</strong> Dodavatel (musí). <br><strong>Kdy:</strong> Pokud neodpoví, zasahuje Šéf (teprve teď).") 
+                    }
+                ],
+                cc: [
+                    { 
+                        t: "Monitorování Eskalace", 
+                        img: "https://images.unsplash.com/photo-1507537297725-24a1c0d250c2?w=500", 
+                        b: email("Podřízený, Dodavatel, Všichni", "Já (Manažer)", "Skočit podřízenému do řeči přes 'Reply All' a řešit to za něj.", ""), 
+                        g: email("-", "-", "Mlčet. Sledovat vlákno. Zasahuji (přesouvám se do To) pouze tehdy, pokud podřízený selže.", "<strong>Odpovídá:</strong> Nikdo z Cc. <br><strong>Kdy:</strong> Nikdy, dokud proces běží. <br><strong>Výjimka:</strong> Hrozí fatální chyba.") 
+                    },
+                    { 
+                        t: "Zbytečná odpověď 'Děkuji'", 
+                        img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500", 
+                        b: email("Všichni (20 lidí)", "-", "Reply All: 'Díky, super práce'. (Spam pro všechny).", ""), 
+                        g: email("Odesílatel", "-", "Odpovím jen odesílateli (Reply) nebo neodpovím vůbec. Žádná odpověď = Souhlas.", "<strong>Odpovídá:</strong> Nikdo. <br><strong>Poznámka:</strong> E-mail není chat. Poděkování patří do osobní zprávy.") 
+                    },
+                    { 
+                        t: "Nalezení chyby v projektu", 
+                        img: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500", 
+                        b: email("Všichni", "-", "Reply All: 'Máš to celé špatně!' (Veřejná poprava kolegy).", ""), 
+                        g: email("Odesílatel (Kolega)", "-", "Reply (jen jemu): 'Ahoj, máš tam chybu, oprav si to, než to uvidí šéf.'", "<strong>Odpovídá:</strong> Pozorný kolega. <br><strong>Jak:</strong> Reply (pouze odesílateli). <br><strong>Proč:</strong> Chráníme reputaci týmu.") 
+                    },
+                    { 
+                        t: "Audit Kvality (Diskuze)", 
+                        img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=500", 
+                        b: email("Auditor, Vedení, Kvalita", "-", "Hádat se o detailech přes 'Reply All' s celým vedením v kopii.", ""), 
+                        g: email("Auditor", "-", "Navrhnout osobní schůzku. E-mailová válka s publikem v Cc nic neřeší.", "<strong>Odpovídá:</strong> Auditovaný. <br><strong>Jak:</strong> Reply (Auditorovi). <br><strong>Akce:</strong> Setup Meeting.") 
+                    },
+                    { 
+                        t: "Být přidán do rozjetého vlaku", 
+                        img: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=500", 
+                        b: email("Všichni", "Já", "Začít odpovídat na e-maily z minulého týdne bez kontextu.", ""), 
+                        g: email("Odesílatel", "-", "Zeptat se soukromě: 'Proč jsem v kopii? Je to jen pro info, nebo něco potřebuješ?'", "<strong>Odpovídá:</strong> Přidaný člověk. <br><strong>Jak:</strong> Reply (Odesílateli).") 
+                    },
+                    { 
+                        t: "Oznámení celozávodní dovolené", 
+                        img: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=500", 
+                        b: email("Všichni zaměstnanci", "-", "Reply All: 'A platí to i pro údržbu?' (Otravujete 500 lidí).", ""), 
+                        g: email("Můj přímý nadřízený", "-", "Zeptám se svého šéfa napřímo, ne HR ředitele přes hromadný e-mail.", "<strong>Odpovídá:</strong> Nikdo na hromadný mail. <br><strong>Akce:</strong> Dotaz na přímého nadřízeného.") 
+                    }
+                ],
+                bcc: [
+                    { 
+                        t: "Hromadný e-mail dodavatelům", 
+                        img: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=500", 
+                        b: email("-", "Firma A, Firma B, Firma C", "Všichni vidí e-maily konkurence. Porušení GDPR.", ""), 
+                        g: email("Já (Své jméno)", "-", "<strong>Bcc:</strong> Firma A, Firma B, Firma C... (Každý vidí jen sebe).", "<strong>Odpovídá:</strong> Dodavatelé (každý zvlášť). <br><strong>Kam to přijde:</strong> Jen mně (odesílateli).") 
+                    },
+                    { 
+                        t: "Tichá eskalace (Dozor)", 
+                        img: "https://images.unsplash.com/photo-1611095790444-1dfa35e37b52?w=500", 
+                        b: email("Všichni", "-", "Jste v Bcc a dáte 'Reply All'. Tím prozradíte, že jste špehovali.", ""), 
+                        g: email("-", "-", "Jste duch. Nesmíte odpovídat. Pokud musíte zasáhnout, pošlete zcela nový e-mail.", "<strong>Odpovídá:</strong> Nikdo z Bcc. <br><strong>Riziko:</strong> Ztráta důvěry a trapas.") 
+                    },
+                    { 
+                        t: "Rozlučkový e-mail", 
+                        img: "https://images.unsplash.com/photo-1521791136064-7985c2d11f62?w=500", 
+                        b: email("All_Users", "-", "Každý, kdo odpoví 'Hodně štěstí', to pošle celé firmě.", ""), 
+                        g: email("Já", "-", "<strong>Bcc:</strong> All_Users. Odpovědi přijdou jen mně.", "<strong>Odpovídá:</strong> Kolegové. <br><strong>Efekt:</strong> Nespadne server, odpovědi jsou soukromé.") 
+                    },
+                    { 
+                        t: "Průzkum spokojenosti", 
+                        img: "https://images.unsplash.com/photo-1588600878108-578307a3cc9d?w=500", 
+                        b: email("Jméno 1, Jméno 2...", "-", "Lidé vidí ostatní příjemce. Bojí se anonymity.", ""), 
+                        g: email("Já", "-", "<strong>Bcc:</strong> Seznam zaměstnanců. Zaručuje pocit soukromí.", "<strong>Akce:</strong> Vyplnění formuláře (ne odpověď e-mailem).") 
+                    },
+                    { 
+                        t: "Poptávka ceny (Tender)", 
+                        img: "https://images.unsplash.com/photo-1554224154-260327c00c19?w=500", 
+                        b: email("-", "Dopravce A, Dopravce B", "Vědí o sobě. Mohou se domluvit na vyšší ceně.", ""), 
+                        g: email("Dopravce A", "-", "Poslat každému zvlášť, nebo přes Bcc. Zachováte vyjednávací výhodu.", "<strong>Odpovídá:</strong> Dopravce. <br><strong>Forma:</strong> Soukromá nabídka.") 
+                    },
+                    { 
+                        t: "Zapojení do diskuze z Bcc", 
+                        img: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=500", 
+                        b: email("Odesílatel", "-", "Odpovíte, ale on zapomene, že jste v Bcc a přeposlale to dál i s vaší tajnou reakcí.", ""), 
+                        g: email("-", "-", "Neodpovídat z Bcc. Požádejte osobně o přidání do oficiální konverzace (To/Cc).", "<strong>Odpovídá:</strong> Nikdo z Bcc.") 
+                    }
+                ]
+            }
+        },
+        sk: {
+            title: "Digitálne 5S: Delegovanie & Eskalácia",
+            blocks: [
+                { t: "🏭 5S v Outlooku", p: "Rovnako ako na dielni triedime nástroje, v Outlooku triedime príjemcov. <strong>Pravidlo:</strong> Ak e-mail neobsahuje vašu konkrétnu zodpovednosť, je to digitálny odpad." },
+                { t: "🛡️ Bezpečnostná poistka", p: "Pole 'Komu' (To) je nositeľom zodpovednosti. Pole 'Kópia' (Cc) je svedok. Nikdy sa nespoliehajte, že si 'niekto z kópie' všimne kritickú chybu." },
+                { t: "🤝 Delegovanie (Vodorovne)", p: "Delegovanie musí byť adresné. Preposlanie e-mailu bez komentára nestačí. Vždy definujte <strong>KTO</strong> (nové meno v poli To) a <strong>DO KEDY</strong> má úlohu splniť." },
+                { t: "🔥 Eskalácia (Zvisle)", p: "Eskalácia je zatiahnutie záchrannej brzdy. Presuňte manažéra z 'Cc' do 'To', aby ste signalizovali: 'Potrebujem tvoju autoritu na odblokovanie situácie'." }
+            ],
+            tabs: { to: "Pole 'KOMU' (To)", cc: "Pole 'KÓPIA' (Cc)", bcc: "SKRYTÁ KÓPIA (Bcc)" },
+            roles: {
+                to: { h: "Vlastník úlohy", s: "Ak je tu vaše meno, vlastníte výsledok. Ak nekonáte, musíte delegovať alebo čeliť eskalácii." },
+                cc: { h: "Svedok (FYI)", s: "Ste tu pre transparentnosť. Zasahujete iba vtedy, keď proces zlyháva." },
+                bcc: { h: "Neviditeľný (Ghost)", s: "Používajte opatrne. Vhodné pre GDPR, ale v internej komunikácii často známka nedôvery." }
+            },
+            scenarios: {
+                to: [
+                    { 
+                        t: "Schválenie nákupu (Urgentné PO)", 
+                        img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=500", 
+                        b: email("Nákupca, Ja", "Šéf, Kolega 1, Kolega 2", "Nechať e-mail ležať, pretože v kópii je 'celý svet' a snáď si to niekto všimne.", ""), 
+                        g: email("Nákupca", "Môj Šéf", "Schvaľujem/Zamietam okamžite. Moja nečinnosť zastavuje výrobu.", "<strong>Odpovedá:</strong> Ja (Vlastník). <br><strong>Ako:</strong> Reply (Odosielateľovi). <br><strong>Kedy:</strong> Ihneď. <br><strong>Kto mlčí:</strong> Šéf v Cc.") 
+                    },
+                    { 
+                        t: "Hlásenie poruchy (Downtime)", 
+                        img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500", 
+                        b: email("Udrzba_Vsetci (Skupina)", "-", "Čakať. Zodpovednosť sa rozplynie medzi 20 ľudí v skupine a nikto nepríde.", ""), 
+                        g: email("Majster Údržby, Zmenový Inžinier", "Vedúci Výroby", "Do predmetu: 'URGENT: Linka 3 stojí'. Adresujem konkrétnych ľudí.", "<strong>Odpovedá:</strong> Majster údržby. <br><strong>Ako:</strong> Reply All (aby výroba vedela, že sa na tom robí). <br><strong>Kedy:</strong> Do 15 min.") 
+                    },
+                    { 
+                        t: "Odovzdanie zmeny (Handover)", 
+                        img: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=500", 
+                        b: email("Zmena_B (Skupina)", "-", "'Chlapi, dokončite tú zákazku.' (Nikto nevie kto, čo a dokedy).", ""), 
+                        g: email("Karol (Nástupca)", "Majster zmeny", "'Karol, zákazka 505 je hotová z 80%. Materiál je pri stroji 2. Dokonči do 18:00.'", "<strong>Odpovedá:</strong> Karol. <br><strong>Ako:</strong> Reply All (Potvrdzujem prevzatie). <br><strong>Kto mlčí:</strong> Majster (iba monitoruje).") 
+                    },
+                    { 
+                        t: "Bezpečnostný incident (BOZP)", 
+                        img: "https://images.unsplash.com/photo-1599696848652-f006023160a5?w=500", 
+                        b: email("Vedúci Haly", "Safety Manager", "Dať Safety Managera len do kópie znamená 'len pre info'. On nebude konať.", ""), 
+                        g: email("Safety Manager, Vedúci Haly", "-", "'Hlásim únik oleja. Žiadam o okamžitú kontrolu.'", "<strong>Odpovedá:</strong> Safety Manager. <br><strong>Ako:</strong> Reply All (Idem tam). <br><strong>Kedy:</strong> Okamžite.") 
+                    },
+                    { 
+                        t: "Reklamácia od zákazníka", 
+                        img: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=500", 
+                        b: email("Kvalita, Logistika, Výroba", "-", "Preposlať všetkým s textom 'Pre info'. Manažér kvality nevie, že je vlastník.", ""), 
+                        g: email("Manažér Kvality", "Riaditelia, Vedúci úsekov", "'Hlásim reklamáciu chyby X od klienta Y. Ako kvalita to musíte analyzovať. Vedenie v Cc pre dohľad.'", "<strong>Odpovedá:</strong> Manažér Kvality. <br><strong>Ako:</strong> Reply All (Prijaté, riešim). <br><strong>Kto mlčí:</strong> Riaditelia v Cc (neodpisovať 'Čo sa stalo?', nechať pracovať).") 
+                    },
+                    { 
+                        t: "Delegovanie: Nemôžem splniť úlohu", 
+                        img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=500", 
+                        b: email("-", "-", "Ignorovať e-mail alebo len preposlať kolegovi bez textu (Forward).", ""), 
+                        g: email("Pôvodný odosielateľ, Nový riešiteľ", "Ja", "'Nestíham to. Delegujem túto úlohu na Petra (teraz v To). Peter, prosím prevezmi to.'", "<strong>Odpovedá:</strong> Ja (odovzdávajúci) a potom Peter (preberajúci). <br><strong>Ako:</strong> Reply All (Všetci musia vedieť o zmene).") 
+                    },
+                    { 
+                        t: "Eskalácia: Dodávateľ neplní termín", 
+                        img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=500", 
+                        b: email("Dodávateľ", "Môj Šéf", "Písať stále dookola dodávateľovi a šéfa nechať 'schovaného' v kópii.", ""), 
+                        g: email("Dodávateľ, Môj Šéf", "-", "'Vzhľadom na kritické meškanie eskalujem problém na vedenie (dávam do To). Žiadam termín.'", "<strong>Odpovedá:</strong> Dodávateľ (musí). <br><strong>Kedy:</strong> Ak neodpovie, zasahuje Šéf (až teraz).") 
+                    }
+                ],
+                cc: [
+                    { 
+                        t: "Monitorovanie Eskalácie", 
+                        img: "https://images.unsplash.com/photo-1507537297725-24a1c0d250c2?w=500", 
+                        b: email("Podriadený, Dodávateľ, Všetci", "Ja (Manažér)", "Skočiť podriadenému do reči cez 'Reply All' a riešiť to za neho.", ""), 
+                        g: email("-", "-", "Mlčať. Sledovať vlákno. Zasahujem (presúvam sa do To) iba vtedy, ak podriadený zlyhá.", "<strong>Odpovedá:</strong> Nikto z Cc. <br><strong>Kedy:</strong> Nikdy, kým proces beží. <br><strong>Výnimka:</strong> Hrozí fatálna chyba.") 
+                    },
+                    { 
+                        t: "Zbytočná odpoveď 'Ďakujem'", 
+                        img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500", 
+                        b: email("Všetci (20 ľudí)", "-", "Reply All: 'Vďaka, super práca'. (Spam pre všetkých).", ""), 
+                        g: email("Odosielateľ", "-", "Odpoviem len odosielateľovi (Reply) alebo neodpoviem vôbec. Žiadna odpoveď = Súhlas.", "<strong>Odpovedá:</strong> Nikto. <br><strong>Poznámka:</strong> E-mail nie je chat. Poďakovanie patrí do osobnej správy.") 
+                    },
+                    { 
+                        t: "Nájdenie chyby v projekte", 
+                        img: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500", 
+                        b: email("Všetci", "-", "Reply All: 'Máš to celé zle!' (Verejná poprava kolegu).", ""), 
+                        g: email("Odosielateľ (Kolega)", "-", "Reply (len jemu): 'Ahoj, máš tam chybu, oprav si to, kým to uvidí šéf.'", "<strong>Odpovedá:</strong> Pozorný kolega. <br><strong>Ako:</strong> Reply (iba odosielateľovi). <br><strong>Prečo:</strong> Chránime reputáciu tímu.") 
+                    },
+                    { 
+                        t: "Audit Kvality (Diskusia)", 
+                        img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=500", 
+                        b: email("Audítor, Vedenie, Kvalita", "-", "Hádať sa o detailoch cez 'Reply All' s celým vedením v kópii.", ""), 
+                        g: email("Audítor", "-", "Navrhnúť osobné stretnutie. E-mailová vojna s publikom v Cc nič nerieši.", "<strong>Odpovedá:</strong> Auditovaný. <br><strong>Ako:</strong> Reply (Audítorovi). <br><strong>Akcia:</strong> Setup Meeting.") 
+                    },
+                    { 
+                        t: "Byť pridaný do rozbehnutého vlaku", 
+                        img: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=500", 
+                        b: email("Všetci", "Ja", "Začať odpovedať na e-maily z minulého týždňa bez kontextu.", ""), 
+                        g: email("Odosielateľ", "-", "Opýtať sa súkromne: 'Prečo som v kópii? Je to len pre info, alebo niečo potrebuješ?'", "<strong>Odpovedá:</strong> Pridaný človek. <br><strong>Ako:</strong> Reply (Odosielateľovi).") 
+                    },
+                    { 
+                        t: "Oznámenie celozávodnej dovolenky", 
+                        img: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=500", 
+                        b: email("Všetci zamestnanci", "-", "Reply All: 'A platí to aj pre údržbu?' (Otravujete 500 ľudí).", ""), 
+                        g: email("Môj priamy nadriadený", "-", "Opýtam sa svojho šéfa napriamo, nie HR riaditeľa cez hromadný e-mail.", "<strong>Odpovedá:</strong> Nikto na hromadný mail. <br><strong>Akcia:</strong> Otázka na priameho nadriadeného.") 
+                    }
+                ],
+                bcc: [
+                    { 
+                        t: "Hromadný e-mail dodávateľom", 
+                        img: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=500", 
+                        b: email("-", "Firma A, Firma B, Firma C", "Všetci vidia e-maily konkurencie. Porušenie GDPR.", ""), 
+                        g: email("Ja (Svoje meno)", "-", "<strong>Bcc:</strong> Firma A, Firma B, Firma C... (Každý vidí len seba).", "<strong>Odpovedá:</strong> Dodávatelia (každý zvlášť). <br><strong>Kam to príde:</strong> Len mne (odosielateľovi).") 
+                    },
+                    { 
+                        t: "Tichá eskalácia (Dozor)", 
+                        img: "https://images.unsplash.com/photo-1611095790444-1dfa35e37b52?w=500", 
+                        b: email("Všetci", "-", "Ste v Bcc a dáte 'Reply All'. Tým prezradíte, že ste špehovali.", ""), 
+                        g: email("-", "-", "Ste duch. Nesmiete odpovedať. Ak musíte zasiahnuť, pošlite úplne nový e-mail.", "<strong>Odpovedá:</strong> Nikto z Bcc. <br><strong>Riziko:</strong> Strata dôvery a trapas.") 
+                    },
+                    { 
+                        t: "Rozlúčkový e-mail", 
+                        img: "https://images.unsplash.com/photo-1521791136064-7985c2d11f62?w=500", 
+                        b: email("All_Users", "-", "Každý, kto odpovie 'Veľa šťastia', to pošle celej firme.", ""), 
+                        g: email("Ja", "-", "<strong>Bcc:</strong> All_Users. Odpovede prídu len mne.", "<strong>Odpovedá:</strong> Kolegovia. <br><strong>Efekt:</strong> Nespadne server, odpovede sú súkromné.") 
+                    },
+                    { 
+                        t: "Prieskum spokojnosti", 
+                        img: "https://images.unsplash.com/photo-1588600878108-578307a3cc9d?w=500", 
+                        b: email("Meno 1, Meno 2...", "-", "Ľudia vidia ostatných príjemcov. Boja sa anonymity.", ""), 
+                        g: email("Ja", "-", "<strong>Bcc:</strong> Zoznam zamestnancov. Zaručuje pocit súkromia.", "<strong>Akcia:</strong> Vyplnenie formulára (nie odpoveď e-mailom).") 
+                    },
+                    { 
+                        t: "Dopyt ceny (Tender)", 
+                        img: "https://images.unsplash.com/photo-1554224154-260327c00c19?w=500", 
+                        b: email("-", "Dopravca A, Dopravca B", "Vedia o sebe. Môžu sa dohodnúť na vyššej cene.", ""), 
+                        g: email("Dopravca A", "-", "Poslať každému zvlášť, alebo cez Bcc. Zachováte vyjednávaciu výhodu.", "<strong>Odpovedá:</strong> Dopravca. <br><strong>Forma:</strong> Súkromná ponuka.") 
+                    },
+                    { 
+                        t: "Zapojenie do diskusie z Bcc", 
+                        img: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=500", 
+                        b: email("Odosielateľ", "-", "Odpoviete, ale on zabudne, že ste v Bcc a prepošle to ďalej aj s vašou tajnou reakciou.", ""), 
+                        g: email("-", "-", "Neodpovedať z Bcc. Požiadajte osobne o pridanie do oficiálnej konverzácie (To/Cc).", "<strong>Odpovedá:</strong> Nikto z Bcc.") 
+                    }
+                ]
+            }
+        },
+        en: {
+            title: "Digital 5S: Delegation & Escalation",
+            blocks: [
+                { t: "🏭 5S in Outlook", p: "Just like on the shop floor, we must sort our tools. In Outlook, we sort recipients. <strong>Rule:</strong> If an email doesn't require your specific action, it is digital waste." },
+                { t: "🛡️ Safety Failsafe", p: "The 'To' field is the sole owner of responsibility. 'Cc' is just a witness. Never rely on 'someone in Cc' noticing a critical error." },
+                { t: "🤝 Delegation (Horizontal)", p: "Delegation must be specific. Forwarding with no comment is not enough. Always define <strong>WHO</strong> (new name in 'To') and <strong>BY WHEN</strong>." },
+                { t: "🔥 Escalation (Vertical)", p: "Escalation is pulling the emergency brake. Move a manager from 'Cc' to 'To' to signal: 'I need your authority to unblock this'." }
+            ],
+            tabs: { to: "The 'TO' Field", cc: "The 'CC' Field", bcc: "The 'BCC' Field" },
+            roles: {
+                to: { h: "Task Owner", s: "If your name is here, you own the result. If you can't act, you must delegate or face escalation." },
+                cc: { h: "Witness (FYI)", s: "You are here for transparency. Intervene only if the process fails." },
+                bcc: { h: "Ghost (Invisible)", s: "Use with caution. Good for GDPR, but often a sign of mistrust in internal comms." }
+            },
+            scenarios: {
+                to: [
+                    { 
+                        t: "Purchase Approval (Urgent PO)", 
+                        img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=500", 
+                        b: email("Buyer, Me", "Boss, Colleague 1", "Ignoring it because 'everyone' is in copy. Someone else might do it.", ""), 
+                        g: email("Buyer", "My Boss", "Approve/Reject immediately. My inaction stops production.", "<strong>Reply:</strong> Me (Owner). <br><strong>How:</strong> Reply (to Sender). <br><strong>When:</strong> Immediately. <br><strong>Who is silent:</strong> Boss in Cc.") 
+                    },
+                    { 
+                        t: "Breakdown Report (Downtime)", 
+                        img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500", 
+                        b: email("Maintenance_All (Group)", "-", "Waiting. Responsibility is diluted among 20 people. No one comes.", ""), 
+                        g: email("Maintenance Lead, Shift Eng.", "Production Mgr", "Subject: 'URGENT: Line 3 Down'. Addressing specific people.", "<strong>Reply:</strong> Maint. Lead. <br><strong>How:</strong> Reply All (to inform production). <br><strong>When:</strong> Within 15 min.") 
+                    },
+                    { 
+                        t: "Shift Handover", 
+                        img: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=500", 
+                        b: email("Shift_B (Group)", "-", "'Guys, finish the order.' (No one knows who, what, or when).", ""), 
+                        g: email("Karl (Successor)", "Shift Leader", "'Karl, Order 505 is 80% done. Material is at Machine 2. Finish by 6 PM.'", "<strong>Reply:</strong> Karl. <br><strong>How:</strong> Reply All (Confirming). <br><strong>Who is silent:</strong> Shift Leader (Monitor only).") 
+                    },
+                    { 
+                        t: "Safety Incident (HSE)", 
+                        img: "https://images.unsplash.com/photo-1599696848652-f006023160a5?w=500", 
+                        b: email("Hall Manager", "Safety Manager", "Putting Safety Mgr in 'Cc' implies 'FYI'. They won't act.", ""), 
+                        g: email("Safety Manager, Hall Manager", "-", "'Reporting oil spill. Requesting immediate check.'", "<strong>Reply:</strong> Safety Manager. <br><strong>How:</strong> Reply All (On my way). <br><strong>When:</strong> Immediately.") 
+                    },
+                    { 
+                        t: "Customer Complaint", 
+                        img: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=500", 
+                        b: email("Quality, Logistics, Production", "-", "Forwarding to everyone with 'FYI'. Quality Mgr doesn't know they own it.", ""), 
+                        g: email("Quality Manager", "Directors, Dept Heads", "'Reporting defect X from Client Y. Quality to analyze. Leadership in Cc for oversight.'", "<strong>Reply:</strong> Quality Manager. <br><strong>How:</strong> Reply All (Received, starting 8D). <br><strong>Who is silent:</strong> Directors in Cc (do not ask 'What happened?', let them work).") 
+                    },
+                    { 
+                        t: "Delegation: Cannot Complete Task", 
+                        img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=500", 
+                        b: email("-", "-", "Ignoring the email or just Forwarding without instructions.", ""), 
+                        g: email("Original Sender, New Owner", "Me", "'I am fully booked. I delegate this to Peter (now in To). Peter, please take over.'", "<strong>Reply:</strong> Me (delegator) then Peter (assignee). <br><strong>How:</strong> Reply All (Everyone must know change of ownership).") 
+                    },
+                    { 
+                        t: "Escalation: Supplier Delay", 
+                        img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=500", 
+                        b: email("Supplier", "My Boss", "Emailing supplier repeatedly while keeping boss 'hidden' in copy.", ""), 
+                        g: email("Supplier, My Boss", "-", "'Due to critical delays, I am escalating to management (now in To). Need date ASAP.'", "<strong>Reply:</strong> Supplier (Must). <br><strong>When:</strong> If silent, Boss intervenes (only now).") 
+                    }
+                ],
+                cc: [
+                    { 
+                        t: "Monitoring Escalation", 
+                        img: "https://images.unsplash.com/photo-1507537297725-24a1c0d250c2?w=500", 
+                        b: email("Subordinate, Supplier, All", "Me (Manager)", "Jumping in via 'Reply All' and micromanaging.", ""), 
+                        g: email("-", "-", "Stay silent. Watch the thread. I intervene (move to To) only if my team fails.", "<strong>Reply:</strong> None from Cc. <br><strong>When:</strong> Never, while process runs. <br><strong>Exception:</strong> Risk of fatal error.") 
+                    },
+                    { 
+                        t: "Useless 'Thank You'", 
+                        img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500", 
+                        b: email("Everyone (20 people)", "-", "Reply All: 'Thanks, good job'. (Spam for everyone).", ""), 
+                        g: email("Sender", "-", "Reply to sender only or do nothing. No reply = Agreement.", "<strong>Reply:</strong> None. <br><strong>Note:</strong> Email is not a chat. Thanks belongs to private msg.") 
+                    },
+                    { 
+                        t: "Spotting an Error", 
+                        img: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500", 
+                        b: email("Everyone", "-", "Reply All: 'This is all wrong!' (Public shaming).", ""), 
+                        g: email("Sender (Colleague)", "-", "Reply (only to them): 'Hi, I found an error on page 3. Fix it before boss sees it.'", "<strong>Reply:</strong> Observant colleague. <br><strong>How:</strong> Reply (Sender Only). <br><strong>Why:</strong> Protect team reputation.") 
+                    },
+                    { 
+                        t: "Quality Audit (Debate)", 
+                        img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=500", 
+                        b: email("Auditor, Board, Quality", "-", "Arguing details via 'Reply All' with the whole board in copy.", ""), 
+                        g: email("Auditor", "-", "Propose a meeting. Email wars with an audience solve nothing.", "<strong>Reply:</strong> Auditee. <br><strong>How:</strong> Reply (to Auditor). <br><strong>Action:</strong> Setup Meeting.") 
+                    },
+                    { 
+                        t: "Added to a Moving Train", 
+                        img: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=500", 
+                        b: email("Everyone", "Me", "Start replying to emails from last week without context.", ""), 
+                        g: email("Sender", "-", "Ask privately: 'Why am I in copy? Just FYI or do you need action?'", "<strong>Reply:</strong> Added person. <br><strong>How:</strong> Reply (to Sender).") 
+                    },
+                    { 
+                        t: "Factory Holiday Notice", 
+                        img: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=500", 
+                        b: email("All Employees", "-", "Reply All: 'Does this apply to Maintenance?' (Annoying 500 people).", ""), 
+                        g: email("My Direct Supervisor", "-", "I ask my boss directly, not the HR Director via mass email.", "<strong>Reply:</strong> None to mass mail. <br><strong>Action:</strong> Ask direct supervisor.") 
+                    }
+                ],
+                bcc: [
+                    { 
+                        t: "Mass Email to Suppliers", 
+                        img: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=500", 
+                        b: email("-", "Company A, Company B", "Everyone sees competitor emails. GDPR breach.", ""), 
+                        g: email("Me (My Name)", "-", "<strong>Bcc:</strong> Comp A, Comp B... (Each sees only themselves).", "<strong>Reply:</strong> Suppliers (Individually). <br><strong>Where to:</strong> Only to me (sender).") 
+                    },
+                    { 
+                        t: "Silent Escalation (Spying)", 
+                        img: "https://images.unsplash.com/photo-1611095790444-1dfa35e37b52?w=500", 
+                        b: email("Everyone", "-", "You are in Bcc but hit 'Reply All'. You reveal you were spying.", ""), 
+                        g: email("-", "-", "You are a ghost. Do not reply. If you must act, send a brand new email.", "<strong>Reply:</strong> None from Bcc. <br><strong>Risk:</strong> Loss of trust and embarrassment.") 
+                    },
+                    { 
+                        t: "Farewell Email", 
+                        img: "https://images.unsplash.com/photo-1521791136064-7985c2d11f62?w=500", 
+                        b: email("All_Users", "-", "Anyone replying 'Good luck' spams the whole company.", ""), 
+                        g: email("Me", "-", "<strong>Bcc:</strong> All_Users. Replies come only to me.", "<strong>Reply:</strong> Colleagues. <br><strong>Effect:</strong> Server safe, replies are private.") 
+                    },
+                    { 
+                        t: "Satisfaction Survey", 
+                        img: "https://images.unsplash.com/photo-1588600878108-578307a3cc9d?w=500", 
+                        b: email("Name 1, Name 2...", "-", "People see others. They fear lack of anonymity.", ""), 
+                        g: email("Me", "-", "<strong>Bcc:</strong> Employee List. Ensures privacy.", "<strong>Action:</strong> Fill form (not email reply).") 
+                    },
+                    { 
+                        t: "Price Quote (Tender)", 
+                        img: "https://images.unsplash.com/photo-1554224154-260327c00c19?w=500", 
+                        b: email("-", "Carrier A, Carrier B", "They know each other. Can fix prices.", ""), 
+                        g: email("Carrier A", "-", "Email separately or use Bcc. Keep negotiation advantage.", "<strong>Reply:</strong> Carrier. <br><strong>Form:</strong> Private offer.") 
+                    },
+                    { 
+                        t: "Joining discussion from Bcc", 
+                        img: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=500", 
+                        b: email("Sender", "-", "You reply, but they forget you are hidden and forward it, revealing you.", ""), 
+                        g: email("-", "-", "Don't reply from Bcc. Ask in person to be added to To/Cc officially.", "<strong>Reply:</strong> None from Bcc.") 
+                    }
+                ]
+            }
+        },
+        ukr: {
+            title: "Цифрові 5S: Делегування & Ескалація",
+            blocks: [
+                { t: "🏭 5S в Outlook", p: "Так само як в цеху ми сортуємо інструменти, в Outlook сортуємо одержувачів. <strong>Правило:</strong> Якщо лист не вимагає вашої дії, це цифрове сміття." },
+                { t: "🛡️ Запобіжник Безпеки", p: "Поле 'Кому' (To) – єдиний власник відповідальності. Поле 'Копія' (Cc) – свідок. Ніколи не сподівайтесь, що 'хтось із копії' помітить критичну помилку." },
+                { t: "🤝 Делегування (Горизонтально)", p: "Делегування має бути чітким. Переслати лист без коментарів недостатньо. Завжди вказуйте <strong>ХТО</strong> (нове ім'я в To) і <strong>ДО КОЛИ</strong> має виконати." },
+                { t: "🔥 Ескалація (Вертикально)", p: "Ескалація – це стоп-кран. Перемістіть менеджера з 'Cc' в 'To', щоб дати сигнал: 'Мені потрібен твій авторитет для вирішення'." }
+            ],
+            tabs: { to: "Поле 'КОМУ' (To)", cc: "Поле 'КОПІЯ' (Cc)", bcc: "ПРИХОВАНА КОПІЯ (Bcc)" },
+            roles: {
+                to: { h: "Власник завдання", s: "Якщо тут ваше ім'я, ви відповідаєте за результат. Якщо не можете діяти, делегуйте або ескалюйте." },
+                cc: { h: "Свідок (FYI)", s: "Ви тут для прозорості. Ваша роль – моніторинг. Втручайтесь лише якщо процес зупинився." },
+                bcc: { h: "Привид (Ghost)", s: "Використовуйте обережно. Добре для GDPR, але в команді це часто ознака недовіри." }
+            },
+            scenarios: {
+                to: [
+                    { 
+                        t: "Затвердження закупівлі (PO)", 
+                        img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=500", 
+                        b: email("Закупник, Я", "Бос, Колега 1", "Ігнорувати, бо 'всі' в копії. Може хтось інший зробить.", ""), 
+                        g: email("Закупник", "Мій Бос", "Затверджую/Відхиляю негайно. Моя бездіяльність зупиняє виробництво.", "<strong>Відповідає:</strong> Я (Власник). <br><strong>Як:</strong> Reply (Відправнику). <br><strong>Коли:</strong> Негайно. <br><strong>Хто мовчить:</strong> Бос в Cc.") 
+                    },
+                    { 
+                        t: "Звіт про поломку (Downtime)", 
+                        img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500", 
+                        b: email("Maintenance_All (Група)", "-", "Чекати. Відповідальність розмивається між 20 людьми. Ніхто не прийде.", ""), 
+                        g: email("Майстер Зміни, Інженер", "Нач. Виробництва", "Тема: 'ТЕРМІНОВО: Лінія 3 стоїть'. Адресую конкретних людей.", "<strong>Відповідає:</strong> Майстер. <br><strong>Як:</strong> Reply All (інформує виробництво). <br><strong>Коли:</strong> До 15 хв.") 
+                    },
+                    { 
+                        t: "Передача зміни", 
+                        img: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=500", 
+                        b: email("Зміна_Б (Група)", "-", "'Хлопці, доробіть замовлення.' (Ніхто не знає хто, що і коли).", ""), 
+                        g: email("Карл (Наступник)", "Майстер зміни", "'Карл, Замовлення 505 готове на 80%. Матеріал біля Машини 2. Закінчи до 18:00.'", "<strong>Відповідає:</strong> Карл. <br><strong>Як:</strong> Reply All (Підтверджую). <br><strong>Хто мовчить:</strong> Майстер (лише моніторить).") 
+                    },
+                    { 
+                        t: "Інцидент безпеки (HSE)", 
+                        img: "https://images.unsplash.com/photo-1599696848652-f006023160a5?w=500", 
+                        b: email("Нач. Цеху", "Safety Manager", "Ставити Safety Менеджера в 'Cc' означає 'для інфо'. Він не буде діяти.", ""), 
+                        g: email("Safety Manager, Нач. Цеху", "-", "'Повідомляю про розлив мастила. Прошу негайну перевірку.'", "<strong>Відповідає:</strong> Safety Manager. <br><strong>Як:</strong> Reply All (Виїжджаю). <br><strong>Коли:</strong> Негайно.") 
+                    },
+                    { 
+                        t: "Рекламація від клієнта", 
+                        img: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=500", 
+                        b: email("Якість, Логістика, Виробництво", "-", "Переслати всім з текстом 'Для інфо'. Менеджер якості не знає, що він відповідальний.", ""), 
+                        g: email("Менеджер Якості", "Директори, Керівники відділів", "'Повідомляю про дефект X від клієнта Y. Якість має це проаналізувати. Директори в Cc для нагляду.'", "<strong>Відповідає:</strong> Менеджер Якості. <br><strong>Як:</strong> Reply All (Прийнято, аналізую). <br><strong>Хто мовчить:</strong> Директори в Cc (не питати 'Що сталось?', дати працювати).") 
+                    },
+                    { 
+                        t: "Делегування: Не можу виконати", 
+                        img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=500", 
+                        b: email("-", "-", "Ігнорувати лист або просто переслати далі без інструкцій.", ""), 
+                        g: email("Відправник, Новий виконавець", "Я", "'Не встигаю. Делегую це Петру (зараз в To). Петро, будь ласка, перехопи.'", "<strong>Відповідає:</strong> Я (хто делегує) потім Петро (виконавець). <br><strong>Як:</strong> Reply All (Всі мають знати про зміну).") 
+                    },
+                    { 
+                        t: "Ескалація: Постачальник затримує", 
+                        img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=500", 
+                        b: email("Постачальник", "Мій Бос", "Писати знову і знову, тримаючи боса 'схованим' в копії.", ""), 
+                        g: email("Постачальник, Мій Бос", "-", "'Через критичну затримку ескалюю проблему на керівництво (в To). Прошу дату.'", "<strong>Відповідає:</strong> Постачальник (мусить). <br><strong>Коли:</strong> Якщо мовчить, втручається Бос (аж тепер).") 
+                    }
+                ],
+                cc: [
+                    { 
+                        t: "Моніторинг Ескалації", 
+                        img: "https://images.unsplash.com/photo-1507537297725-24a1c0d250c2?w=500", 
+                        b: email("Підлеглий, Постачальник, Всі", "Я (Менеджер)", "Перебити підлеглого через 'Reply All' і вирішувати за нього.", ""), 
+                        g: email("-", "-", "Мовчати. Стежити за темою. Втручаюсь (переходжу в To) лише якщо підлеглий провалиться.", "<strong>Відповідає:</strong> Ніхто з Cc. <br><strong>Коли:</strong> Ніколи, поки процес йде. <br><strong>Виняток:</strong> Ризик фатальної помилки.") 
+                    },
+                    { 
+                        t: "Зайве 'Дякую'", 
+                        img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500", 
+                        b: email("Всі (20 людей)", "-", "Reply All: 'Дякую, супер'. (Спам для всіх).", ""), 
+                        g: email("Відправник", "-", "Відповім лише автору (Reply) або промовчу. Без відповіді = Згода.", "<strong>Відповідає:</strong> Ніхто. <br><strong>Примітка:</strong> Дякую пишіть в особисті.") 
+                    },
+                    { 
+                        t: "Виявлення помилки", 
+                        img: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500", 
+                        b: email("Всі", "-", "Reply All: 'Це все неправильно!' (Публічне приниження).", ""), 
+                        g: email("Відправник (Колега)", "-", "Reply (тільки йому): 'Привіт, там помилка, виправ, поки шеф не побачив.'", "<strong>Відповідає:</strong> Уважний колега. <br><strong>Як:</strong> Reply (Тільки автору). <br><strong>Чому:</strong> Захист репутації.") 
+                    },
+                    { 
+                        t: "Аудит Якості (Дебати)", 
+                        img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=500", 
+                        b: email("Аудитор, Директори, Якість", "-", "Сперечатись про деталі через 'Reply All' з усіма директорами в копії.", ""), 
+                        g: email("Аудитор", "-", "Призначити зустріч. E-mail війна з публікою в Cc нічого не вирішує.", "<strong>Відповідає:</strong> Той, кого перевіряють. <br><strong>Як:</strong> Reply (Аудитору). <br><strong>Дія:</strong> Зустріч.") 
+                    },
+                    { 
+                        t: "Додавання в середині розмови", 
+                        img: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=500", 
+                        b: email("Всі", "Я", "Почати відповідати на старі листи без контексту.", ""), 
+                        g: email("Відправник", "-", "Спитати приватно: 'Чому я в копії? Це для інфо чи треба дія?'", "<strong>Відповідає:</strong> Доданий. <br><strong>Як:</strong> Reply (Автору).") 
+                    },
+                    { 
+                        t: "Оголошення про відпустки", 
+                        img: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=500", 
+                        b: email("Всі співробітники", "-", "Reply All: 'А це стосується механіків?' (Дратуєте 500 людей).", ""), 
+                        g: email("Мій керівник", "-", "Спитаю свого шефа напряму, не HR-директора через масовий лист.", "<strong>Відповідає:</strong> Ніхто на масовий лист. <br><strong>Дія:</strong> Питання керівнику.") 
+                    }
+                ],
+                bcc: [
+                    { 
+                        t: "Масовий лист постачальникам", 
+                        img: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=500", 
+                        b: email("-", "Фірма А, Фірма Б", "Всі бачать конкурентів. Порушення конфіденційності.", ""), 
+                        g: email("Я (Своє ім'я)", "-", "<strong>Bcc:</strong> Фірма А, Фірма Б... (Кожен бачить лише себе).", "<strong>Відповідає:</strong> Постачальник (окремо). <br><strong>Куди прийде:</strong> Тільки мені (автору).") 
+                    },
+                    { 
+                        t: "Тиха Ескалація (Шпигунство)", 
+                        img: "https://images.unsplash.com/photo-1611095790444-1dfa35e37b52?w=500", 
+                        b: email("Всі", "-", "Ви в Bcc і тиснете 'Reply All'. Ви розкрили, що шпигували.", ""), 
+                        g: email("-", "-", "Ви привид. Не можна відповідати. Якщо треба діяти, пишіть новий лист.", "<strong>Відповідає:</strong> Ніхто з Bcc. <br><strong>Ризик:</strong> Втрата довіри.") 
+                    },
+                    { 
+                        t: "Прощальний лист", 
+                        img: "https://images.unsplash.com/photo-1521791136064-7985c2d11f62?w=500", 
+                        b: email("All_Users", "-", "Кожен, хто відповість 'Удачі', спамить усю фірму.", ""), 
+                        g: email("Я", "-", "<strong>Bcc:</strong> All_Users. Відповіді прийдуть тільки мені.", "<strong>Відповідає:</strong> Колега. <br><strong>Ефект:</strong> Відповіді приватні.") 
+                    },
+                    { 
+                        t: "Опитування задоволеності", 
+                        img: "https://images.unsplash.com/photo-1588600878108-578307a3cc9d?w=500", 
+                        b: email("Ім'я 1, Ім'я 2...", "-", "Люди бачать інших. Бояться анонімності.", ""), 
+                        g: email("Я", "-", "<strong>Bcc:</strong> Список співробітників. Гарантує приватність.", "<strong>Дія:</strong> Заповнення форми (не лист).") 
+                    },
+                    { 
+                        t: "Запит ціни (Тендер)", 
+                        img: "https://images.unsplash.com/photo-1554224154-260327c00c19?w=500", 
+                        b: email("-", "Перевізник А, Перевізник Б", "Знають один про одного. Можуть домовитись про ціну.", ""), 
+                        g: email("Перевізник А", "-", "Писати окремо або через Bcc. Зберігайте перевагу в переговорах.", "<strong>Відповідає:</strong> Перевізник. <br><strong>Форма:</strong> Приватна пропозиція.") 
+                    },
+                    { 
+                        t: "Вступ в дискусію з Bcc", 
+                        img: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=500", 
+                        b: email("Відправник", "-", "Ви відповідаєте, але він забуває, що ви в Bcc і пересилає далі, розкриваючи вас.", ""), 
+                        g: email("-", "-", "Не відповідати з Bcc. Попросіть особисто додати вас офіційно (To/Cc).", "<strong>Відповідає:</strong> Ніхто з Bcc.") 
+                    }
+                ]
+            }
+        }
+    };
+
+    let currentLang = 'cz';
+
+    function setLang(lang) {
+        currentLang = lang;
+        const c = data[lang];
+
+        document.querySelectorAll('.lang-switch button').forEach(btn => btn.classList.remove('active'));
+        document.querySelector(`.lang-switch button[onclick="setLang('${lang}')"]`).classList.add('active');
+
+        document.getElementById('main-title').textContent = c.title;
+        for (let i = 0; i < 4; i++) {
+            document.getElementById(`b${i+1}-title`).textContent = c.blocks[i].t;
+            document.getElementById(`b${i+1}-text`).innerHTML = c.blocks[i].p;
+        }
+
+        document.getElementById('btn-to').textContent = c.tabs.to;
+        document.getElementById('btn-cc').textContent = c.tabs.cc;
+        document.getElementById('btn-bcc').textContent = c.tabs.bcc;
+
+        document.getElementById('to-head').textContent = c.roles.to.h;
+        document.getElementById('to-sub').textContent = c.roles.to.s;
+        document.getElementById('cc-head').textContent = c.roles.cc.h;
+        document.getElementById('cc-sub').textContent = c.roles.cc.s;
+        document.getElementById('bcc-head').textContent = c.roles.bcc.h;
+        document.getElementById('bcc-sub').textContent = c.roles.bcc.s;
+
+        renderGrid('to', c.scenarios.to);
+        renderGrid('cc', c.scenarios.cc);
+        renderGrid('bcc', c.scenarios.bcc);
+    }
+
+    function renderGrid(type, scenarios) {
+        const grid = document.getElementById(`grid-${type}`);
+        grid.innerHTML = scenarios.map(item => `
+            <div class="scenario-card">
+                <div class="card-img" style="background-image: url('${item.img}')"></div>
+                <div class="card-content">
+                    <div class="situation-title">${item.t}</div>
+                    <div class="action-box bad-action">
+                        <span class="label-header">❌ ŠPATNĚ / BAD / ZLE:</span>
+                        ${item.b}
+                    </div>
+                    <div class="action-box good-action">
+                        <span class="label-header">✅ SPRÁVNĚ / GOOD / DOBRE:</span>
+                        ${item.g}
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function showTab(type) {
+        document.querySelectorAll('.scenarios-container').forEach(el => el.classList.remove('active-view'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+        document.getElementById('view-' + type).classList.add('active-view');
+        document.getElementById('btn-' + type).classList.add('active');
+    }
+
+    // Initialize
+    setLang('cz');
+
+</script>
+
+</body>
+</html>
